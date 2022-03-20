@@ -76,14 +76,15 @@ const vue = new Observer()
 
 // 切片编程
 const oldArrayPush = Array.prototype.push
+
 // 更新视图
-function nextView () {
+function upDataView () {
   console.log('isPush')
 }
 
 // window
 Array.prototype.push = function (...arg) {
-  nextView() // 切片
+  upDataView() // 切片
   oldArrayPush.apply(this, arg)
 }
 
@@ -91,4 +92,14 @@ const arr = []
 arr.push(1)
 
 // vue 是不是不能监听数组方法 length
+
+// 重写数组方法
+let oldArrayPrototype = Array.prototype
+let proto = Object.create(oldArrayPrototype);
+['push', 'shift', 'unshift'].forEach((met) => {
+  proto[met] = function () { // 函数劫持 （重写函数 继续调用旧方法）
+    upDataView() // 切片编程
+    oldArrayPrototype[met].call(this, ...arguments)
+  }
+})
 
