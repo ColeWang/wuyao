@@ -61,3 +61,34 @@ const vue = new Observer()
 // function onTest (value) {
 //   console.log(value)
 // }
+
+// 浏览器 也是发布订阅模式
+// <div onclick="onClick()"></div>
+//
+// function onClick () {
+//
+// }
+
+// 策略模式
+// 单例模式
+// 工厂模式
+// 装饰器模式 装饰函数 类 参数 （注解 + 反射）
+
+// 切片编程
+const oldArrayPush = Array.prototype.push
+// 更新视图
+function nextView () {
+  console.log('isPush')
+}
+
+// window
+Array.prototype.push = function (...arg) {
+  nextView() // 切片
+  oldArrayPush.apply(this, arg)
+}
+
+const arr = []
+arr.push(1)
+
+// vue 是不是不能监听数组方法 length
+
