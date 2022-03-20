@@ -1,4 +1,11 @@
-import { l } from './TS类型'
 
 
-l
+interface Cache {
+  [key: string]: Function[]
+}
+
+
+const cache: Cache = {
+  'aaaa': [() => {}]
+}
+

@@ -101,12 +101,164 @@ type NewNumber = number;
 
 // 继承 interface type (吴尧说懂了 要求不用讲)
 
-// 泛型 T
+// 泛型 T 定义的时候不规定类型 用的时候规定类型
+function dome<T> (valve: T): T {
+  return valve
+}
+
+dome<number>(1)
+dome<string>('')
+
+interface Demo<T> {
+  value: T;
+}
+
+const _obj: Demo<number> = {
+  value: 1
+}
+
+const _arr: Array<number> = []
 
 // 泛型的约束
+type Demo1 = number | string;
+
+function dome1<T extends Demo1> (valve: T): T {
+  return valve
+}
+
+interface Dome2<T> {
+  value: T;
+}
+
+function dome2<P, T extends Dome2<Demo1>> (valve: T): T {
+  return valve
+}
+
+dome2<Demo1, Dome2<Demo1>>({ value: 111 })
 
 // class
+// public指定成员是可见的 成员都默认为 public
+// 当成员被标记成 private时，它就不能在声明它的类的外部访问
+// protected修饰符与 private修饰符的行为很相似，但有一点不同， protected成员在派生类中仍然可以访问
+// 你可以使用 readonly关键字将属性设置为只读的。 只读属性必须在声明时或构造函数里被初始化
+class P<T> {
+  value: T
+
+  static a () {
+  }
+
+  constructor (value: T) {
+    this.value = value
+  }
+
+  add () {
+
+  }
+}
+
+// 类 类型
+const _p: P<number> = new P(1)
+const nextP: P<number> = _p
 
 // class 的继承
+class A<T> {
+  value: T
 
-// class 类型接口
+  constructor (value: T) {
+    this.value = value
+  }
+}
+
+class B extends A<number> {
+  constructor () {
+    super(1)
+  }
+}
+
+// class 实现接口
+interface Padder {
+  add (): void;
+}
+
+class SpaceRepeating implements Padder {
+  private numSpaces: number
+
+  constructor (numSpaces: number) {
+  }
+
+  add (): void {
+
+  }
+}
+
+// 类型别名
+type NextType = Padder;
+
+// 对象冒充继承 原型链
+// function _A () {
+//
+// }
+// _A.add = function () {
+//
+// }
+// function _B () {
+//   _A.call(this, 1)
+// }
+//
+// function _new () {
+//
+// }
+
+
+// keyof
+interface Person {
+  name: string;
+  age: number;
+}
+
+const person: Person = {
+  name: '小明',
+  age: 18
+}
+
+let personKey: keyof Person = 'name'
+
+personKey = 'age'
+
+console.log(person[personKey])
+
+
+// key
+interface Abc<T, P> {
+  [key: string]: P;
+}
+
+const abc: Abc<string, number> = {
+  'qwe_qqw': 1,
+  'aa': 1
+}
+
+
+// P in string | number | symbol
+// type Record<K extends keyof any, T> = {
+//   [P in K]: T;
+// }
+
+const A2: Record<string, number> = {
+  qwe: 1,
+  a: 2
+}
+
+
+// in
+
+
+
+
+
+
+
+
+
+
+
